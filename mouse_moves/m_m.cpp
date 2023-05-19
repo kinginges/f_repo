@@ -39,12 +39,13 @@ void set_static_cursor_pos()
 void move_mouse_circle()
 {
 
-    int steps = 500; // init default values everything
+    int steps = 200; // init default values everything
     int radius = 200;
     float degree = 0;
     bool add_inconsistency;
     char add_incon_answ;
     char test;
+    float const_to_radians = M_PI / float(180);
 
     std::cout << "Please, provide the amount of steps for smoothness (default is at " << steps << "): ";
     std::cin >> steps;
@@ -66,18 +67,19 @@ void move_mouse_circle()
     float *x_coord = new float[steps];
     float *y_coord = new float[steps];
 
-    float degree_increm = float(360) / float(steps); // define degree increment per step
+    float degree_increm = (float(360) * const_to_radians) / float(steps); // define degree increment per step
     /* std::cout << degree_increm << std::endl; // check because i had problem here with dividing int with int
     std::cin >> test; */
 
-    for (int i = 0; i < steps; i++)
+    for (int i = 0; i < steps + 1; i++) // steps + 1 so circle does actually complete fully
     {
         // float radian = degree_increm / (2 * M_PI); // converting degrees to radians
         x_coord[i] = radius * cos(degree);
         y_coord[i] = radius * sin(degree);
+        /* std::cout << x_coord[i] << std::endl; // debugging */
 
         degree += degree_increm;
-        /* std::cout << degree << std::endl; */ // debugging
+        /* std::cout << degree << std::endl; // debugging */
     }
 
     /* std::cin >> test;   // debugging */
@@ -97,20 +99,25 @@ void move_mouse_circle()
     curr_x_coord = curr_cursor_p.x;
     curr_y_coord = curr_cursor_p.y;
 
-    for (int u = 0; u < 30; u++)
+    for (int u = 0; u < steps + 1; u++) // steps + 1 so circle does actually complete fully
     {
         /* std::cout << x_coord[u] << "," << y_coord[u] << "   ";  //debugging */
         SetCursorPos(x_coord[u] + curr_x_coord, y_coord[u] + curr_y_coord);
         if (add_inconsistency == true)
         {
-            float millis = 10 + ((1 + rand() % 50) / 100);
+            float millis = 1 + ((1 + rand() % 50) / 100);
             Sleep(millis);
         }
         else
         {
-            Sleep(10);
+            Sleep(1);
         }
     };
+
+    /* while (degree < 360)
+    {
+        degree += degree_increm;
+    } */
 
     delete[] x_coord;
     delete[] y_coord;
