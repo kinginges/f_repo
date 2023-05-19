@@ -23,7 +23,7 @@ int prompt()
     return prompt_option;
 };
 
-void set_static_cursor_pos()
+void set_static_cursor_pos() // teleports cursor to a defined location on main screen
 {
     int x_coord = 0;
     int y_coord = 0;
@@ -32,10 +32,9 @@ void set_static_cursor_pos()
     std::cout << "Enter desired y coordinates: ";
     std::cin >> y_coord;
     SetCursorPos(x_coord, y_coord);
-    std::cout << "The prompt has been executed. Check for the expected output and report any issues." << std::endl;
 };
 
-void move_mouse_circle()
+void move_mouse_circle() // moves mouse in a circular motion with any smoothness and radius
 {
 
     int steps = 150;                                  // defines how rough the circle coordinates are calculated, the higher the smoother
@@ -114,7 +113,7 @@ void move_mouse_circle()
     delete[] y_coord;
 };
 
-unsigned int confirm() // function to ask if user wants to repeat the process or exit the program
+unsigned int confirm() // asks if user wants to continue or exit the program
 {
     char lets_go = 'O';
     std::cout << "Do you want to give it another go? y/n: ";
@@ -145,22 +144,21 @@ int main()
         {
         case 1:
             set_static_cursor_pos();
-
             p_o = confirm();
             break;
+
         case 2:
             /* auto_clicker(); */
-
             p_o = confirm();
             break;
+
         case 3:
             move_mouse_circle();
-
             p_o = confirm();
             break;
+
         case 4:
             /* move_mouse_box(); */
-
             p_o = confirm();
             break;
         };
@@ -171,6 +169,5 @@ int main()
             break;
         }
     };
-    std::cin;
     return 0;
 };
